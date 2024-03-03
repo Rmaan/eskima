@@ -2,6 +2,10 @@
 Generate Elasticsearch/OpenSearch schema from your Go structs
 
 ## Basic usage
+```shell
+go get github.com/Rmaan/eskima@latest
+```
+
 ```go
 package main
 
@@ -80,7 +84,7 @@ type Book struct {
 }
 ```
 
-To disable a field, i.e. `{"enabled": false}`, use eskima tag "!"
+To disable a field, i.e. `{"enabled": false}`, use tag `eskima:"!"`
 ```go
 type Book struct {
 	Comments []Comment `json:"comments" eskima:"!"`
@@ -103,13 +107,14 @@ Will emit:
 You can implement `eskima.ElasticSchemaer` to have custom control over schema
 generation.
 
-For example, we can this Keyword to remove the need to specify type in eskima
-tag.
+For example, you can make a `Keyword` type to remove the need to specify
+`eskima:"keyword"` over and over.
+
 ```go
 type Keyword string
 
-func (k *Keyword) ElasticSchema() (*ElasticSchema, error) {
-	return &ElasticSchema{Type: "keyword"}, nil
+func (k *Keyword) eskima.ElasticSchema() (*eskima.ElasticSchema, error) {
+	return &eskima.ElasticSchema{Type: "keyword"}, nil
 }
 
 type Book struct {
