@@ -6,18 +6,32 @@ import (
 	"strings"
 )
 
+type KNNMethod struct {
+	Name          string `json:"name,omitempty"`
+	SpaceType     string `json:"space_type,omitempty"`
+	Engine        string `json:"engine,omitempty"`
+	KNNParameters `json:"parameters,omitempty"`
+}
+
+type KNNParameters struct {
+	EfConstruction int `json:"ef_construction,omitempty"`
+	M              int `json:"m,omitempty"`
+}
+
 type ElasticSchema struct {
 	Type       string                    `json:"type,omitempty"`
 	Properties map[string]*ElasticSchema `json:"properties,omitempty"`
 
-	Analyzer       string   `json:"analyzer,omitempty"`
-	Coerce         *bool    `json:"coerce,omitempty"`
-	CopyTo         []string `json:"copy_to,omitempty"`
-	DocValues      *bool    `json:"doc_values,omitempty"`
-	Enabled        *bool    `json:"enabled,omitempty"`
-	Format         string   `json:"format,omitempty"`
-	Index          *bool    `json:"index,omitempty"`
-	SearchAnalyzer string   `json:"search_analyzer,omitempty"`
+	Analyzer       string     `json:"analyzer,omitempty"`
+	Coerce         *bool      `json:"coerce,omitempty"`
+	CopyTo         []string   `json:"copy_to,omitempty"`
+	DocValues      *bool      `json:"doc_values,omitempty"`
+	Enabled        *bool      `json:"enabled,omitempty"`
+	Format         string     `json:"format,omitempty"`
+	Index          *bool      `json:"index,omitempty"`
+	SearchAnalyzer string     `json:"search_analyzer,omitempty"`
+	Dimension      *int       `json:"dimension,omitempty"`
+	Method         *KNNMethod `json:"method,omitempty"`
 }
 
 func (s *ElasticSchema) Get(path ...string) *ElasticSchema {
